@@ -9,8 +9,8 @@ public interface IAppService
     Task<bool> DoesItemExist(int id);
     Task<Item> GetItemById(int id);
     Task AddBackpack(Backpack backpack);
-    Task<bool> CharacterHasItem(int characterId, int itemId);
-    Task<Backpack> GetBackpack(int characterId, int itemId);
+    Task<bool> DoesCharacterHasItem(int characterId, int itemId);
+    Task<Backpack> GetBackpackByIds(int characterId, int itemId);
     Task UpdateBackpack(Backpack backpack);
     Task UpdateCharacter(Character character);
     Task<Character> GetCharacter(int id);

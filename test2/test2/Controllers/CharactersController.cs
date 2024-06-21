@@ -64,20 +64,19 @@ public class CharactersController: ControllerBase
         }
         
         var character = await service.GetCharacter(characterId);
-        if (character.MaxWeight - character.CurrentWeight < totalWeight)
-            return BadRequest("Character does not has enough free weight");
+        if (character.MaxWeight - character.CurrentWeight < totalWeight) return BadRequest("Character does not has enough free weight");
         character.CurrentWeight += totalWeight;
         await service.UpdateCharacter(character);
         
         for (int i = 0; i < backpacks.Count; i++)
         {
-            if (!await service.CharacterHasItem(characterId, backpacks.ElementAt(i).ItemId))
+            if (!await service.DoesCharacterHasItem(characterId, backpacks.ElementAt(i).ItemId))
             {
                 await service.AddBackpack(backpacks.ElementAt(i));
             }
             else
             {
-                var backpack = await service.GetBackpack(characterId, backpacks.ElementAt(i).ItemId);
+                var backpack = await service.GetBackpackByIds(characterId, backpacks.ElementAt(i).ItemId);
                 backpack.Amount += backpacks.ElementAt(i).Amount;
                 await service.UpdateBackpack(backpack);
             }

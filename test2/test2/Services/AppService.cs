@@ -41,14 +41,15 @@ public class AppService: IAppService
     public async Task AddBackpack(Backpack backpack)
     {
         await _context.Backpacks.AddAsync(backpack);
+        await _context.SaveChangesAsync();
     }
     
-    public async Task<bool> CharacterHasItem(int characterId, int itemId)
+    public async Task<bool> DoesCharacterHasItem(int characterId, int itemId)
     {
         return await _context.Backpacks.AnyAsync(b => b.CharacterId == characterId & b.ItemId == itemId);
     }
     
-    public async Task<Backpack> GetBackpack(int characterId, int itemId)
+    public async Task<Backpack> GetBackpackByIds(int characterId, int itemId)
     {
         return await _context.Backpacks.Where(b => b.CharacterId == characterId & b.ItemId == itemId).FirstAsync();
     }
@@ -56,11 +57,13 @@ public class AppService: IAppService
     public async Task UpdateBackpack(Backpack backpack)
     {
         _context.Backpacks.Update(backpack);
+        await _context.SaveChangesAsync();
     }
     
     public async Task UpdateCharacter(Character character)
     {
         _context.Characters.Update(character);
+        await _context.SaveChangesAsync();
     }
     
     public async Task<Character> GetCharacter(int id)
